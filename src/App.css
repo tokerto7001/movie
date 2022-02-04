@@ -90,6 +90,7 @@
 }
 .movie-info h3{
   margin: 0;
+  color: white;
 }
 .movie-over{
   position: absolute;
@@ -106,4 +107,18 @@
 }
 .movie:hover .movie-over{
   transform: translateX(0%);
+}
+.tag{
+  border-radius: 5px;
+  padding: 0.7rem;
+  font-weight: bold;
+}
+.tag.green{
+  background-color: #1b5e20;
+}
+.tag.orange{
+  background-color: #f57f17;
+}
+.tag.red{
+  background-color: #7f0000;
 }
