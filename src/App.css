@@ -49,3 +49,17 @@
 .navbar-brand{
   color: white !important;
 }
+.search{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color:#bdbdbd ;
+  padding: 1rem;
+}
+.search-input{
+  height: 40px;
+  width: 300px;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+}
