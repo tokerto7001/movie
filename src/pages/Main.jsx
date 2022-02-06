@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Loading from "../components/Loading";
 import MovieCard from "../components/MovieCard";
+import NotFound from "../components/NotFound";
 
 const UNFILTERED = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}`
 
@@ -43,7 +44,7 @@ export default function Main() {
     if (loading) {
         content = <Loading />
     } else if (notFound) {
-        content = <h1 className="text-center mt-4">There is no matching data...</h1>
+        content = <NotFound />
     }
     else {
         content = <div className="movie-container">
