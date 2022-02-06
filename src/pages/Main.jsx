@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Loading from "../components/Loading";
 import MovieCard from "../components/MovieCard";
 
 const UNFILTERED = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}`
@@ -8,19 +9,56 @@ const FILTERED = `https://api.themoviedb.org/3/search/movie?api_key=${process.en
 
 export default function Main() {
 
+    let content;
     const [searchTerm, setSearchTerm] = useState('');
     const [movies, setMovies] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [notFound, setNotFound] = useState(false);
 
     const getMovies = (API) => {
+        setLoading(true)
         axios.get(API)
-            .then((res) => setMovies(res.data.results))
-            .catch((err) => console.log(err))
+            .then((res) => {
+                setMovies(res.data.results)
+                setTimeout(() => {
+                    setLoading(false)
+                }, 1000)
+                if (res.data.results.length == 0) {
+                    setNotFound(true);
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+                setLoading(false)
+            })
+
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
         getMovies(FILTERED + searchTerm)
         setSearchTerm('')
+    }
+
+    if (loading) {
+        content = <Loading />
+    } else if (notFound) {
+        content = <h1 className="text-center mt-4">There is no matching data...</h1>
+    }
+    else {
+        content = <div className="movie-container">
+            {
+                movies.map((movie) => (
+                    <MovieCard
+                        key={movie.id}
+                        title={movie.title}
+                        poster_path={movie.poster_path}
+                        overview={movie.overview}
+                        vote_average={movie.vote_average}
+                    />
+                ))
+            }
+        </div>
     }
 
     useEffect(() => {
@@ -43,19 +81,8 @@ export default function Main() {
                     className='btn btn-primary'
                 />
             </form>
-            <div className="movie-container">
-                {
-                    movies.map((movie) => (
-                        <MovieCard
-                            key={movie.id}
-                            title={movie.title}
-                            poster_path={movie.poster_path}
-                            overview={movie.overview}
-                            vote_average={movie.vote_average}
-                        />
-                    ))
-                }
-            </div>
+            {content}
+
         </React.Fragment>
     )
 
