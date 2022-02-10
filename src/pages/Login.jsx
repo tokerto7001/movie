@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import AuthContext from '../contexts/AuthContext';
 
 export default function Login() {
 
     const navigate = useNavigate();
+    const { handleLogin } = useContext(AuthContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [alertClass, setAlertClass] = useState('alert alert-danger d-none')
@@ -11,7 +13,7 @@ export default function Login() {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (email && password) {
-            navigate('/');
+            handleLogin(email, password)
         } else {
             setAlertClass('alert alert-danger')
         }

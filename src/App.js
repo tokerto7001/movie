@@ -6,18 +6,23 @@ import Navbar from './components/Navbar';
 import Login from './pages/Login'
 import Register from './pages/Register'
 import './App.css'
+import { AuthContextProvider } from './contexts/AuthContext';
 
 export default function App() {
   return (
     <React.Fragment>
+
       <Router>
-        <Navbar />
-        <Routes>
-          <Route path='/' element={<Main />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
-        </Routes>
+        <AuthContextProvider>
+          <Navbar />
+          <Routes>
+            <Route path='/' element={<Main />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+          </Routes>
+        </AuthContextProvider>
       </Router>
+
     </React.Fragment>
   );
 }
