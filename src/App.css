@@ -129,7 +129,7 @@
 }
 .login-form{
   flex: 1;
-  background-color: white;
+  background-color: #eeeeee;
   color: black;
   padding: 5rem;
 }
@@ -145,4 +145,16 @@
 .form-control{
   width: 90%;
   margin: 20px;
+}
+.register {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.register-form {
+  flex: 1;
+  background-color: #eeeeee;
+  color: #000000;
+  padding: 5rem;
 }

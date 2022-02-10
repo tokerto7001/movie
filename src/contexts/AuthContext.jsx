@@ -11,7 +11,8 @@ export const AuthContextProvider = (props) => {
         email: '',
         password: ''
     });
-    const [login, setLogin] = useState(false)
+    const [login, setLogin] = useState(false);
+    const [alertMessage, setAlertMessage] = useState(false)
 
     const handleCredentials = (firstName, lastName, email, password) => {
         setCredentials({
@@ -27,6 +28,9 @@ export const AuthContextProvider = (props) => {
         if (credentials.email == email && credentials.password == password) {
             setLogin(true)
             navigate('/')
+            setAlertMessage(false)
+        } else {
+            setAlertMessage(true)
         }
     }
 
@@ -46,7 +50,8 @@ export const AuthContextProvider = (props) => {
             handleCredentials: handleCredentials,
             handleLogin: handleLogin,
             login: login,
-            handleLogOut: handleLogOut
+            handleLogOut: handleLogOut,
+            alertMessage: alertMessage
         }}>
             {props.children}
         </AuthContext.Provider >

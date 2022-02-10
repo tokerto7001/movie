@@ -5,7 +5,7 @@ import AuthContext from '../contexts/AuthContext';
 export default function Login() {
 
     const navigate = useNavigate();
-    const { handleLogin } = useContext(AuthContext);
+    const { handleLogin, alertMessage } = useContext(AuthContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [alertClass, setAlertClass] = useState('alert alert-danger d-none')
@@ -24,8 +24,8 @@ export default function Login() {
                 <img src='https://picsum.photos/800/800' alt='photo' />
             </div>
             <div className='login-form'>
-                <div className={alertClass} role="alert">
-                    Please fill in the blanks!!!
+                <div className={alertMessage ? 'alert alert-danger' : 'alert alert-danger d-none'} role="alert">
+                    {alertMessage && 'Please check your credentials'}
                 </div>
                 <h1 className='form-title display-3'>Login</h1>
                 <form id='login' onSubmit={handleSubmit}>
@@ -40,6 +40,7 @@ export default function Login() {
                             placeholder='Enter your email adress...'
                             onChange={(e) => setEmail(e.target.value)}
                             value={email}
+                            required
                         />
                     </div>
                     <div className='mt-3'>
@@ -53,6 +54,7 @@ export default function Login() {
                             placeholder='Enter your password...'
                             onChange={(e) => setPassword(e.target.value)}
                             value={password}
+                            required
                         />
                     </div>
                     <input
