@@ -1,15 +1,20 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../contexts/AuthContext';
+import { signOut } from 'firebase/auth';
+import { auth } from '../auth/firebase-config'
 
 export default function Navbar() {
     const navigate = useNavigate();
-    const { credentials, login, handleLogOut } = useContext(AuthContext);
+    const { credentials, login, currentUser } = useContext(AuthContext);
 
     const handleClick = () => {
         navigate('/login')
     }
     // console.log(credentials);
+    const handleLogOut = () => {
+        signOut(auth);
+    };
 
     return (
         <div>
@@ -17,10 +22,10 @@ export default function Navbar() {
                 <a className="navbar-brand" href="/">React Movie App</a>
                 <div className='buttons'>
                     {
-                        login ?
+                        currentUser ?
                             <div className='d-flex'>
                                 <h1 className='text-capitalize text-light'>
-                                    {credentials.firstName + ' ' + credentials.lastName}
+                                    {currentUser.displayName}
                                 </h1>
                                 <button
                                     className='btn btn-outline-light mx-2'

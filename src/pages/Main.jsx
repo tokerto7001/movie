@@ -1,6 +1,7 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import MovieCard from "../components/MovieCard";
+import AuthContext from "../contexts/AuthContext";
 
 const UNFILTERED = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}`
 
@@ -10,6 +11,7 @@ export default function Main() {
 
     const [searchTerm, setSearchTerm] = useState('');
     const [movies, setMovies] = useState([]);
+    const { currentUser } = useContext(AuthContext);
 
     const getMovies = (API) => {
         axios.get(API)
@@ -19,8 +21,13 @@ export default function Main() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        getMovies(FILTERED + searchTerm)
-        setSearchTerm('')
+        if (currentUser) {
+            getMovies(FILTERED + searchTerm)
+            setSearchTerm('')
+        } else {
+            alert('Please login')
+        }
+
     }
 
     useEffect(() => {

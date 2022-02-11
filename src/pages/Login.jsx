@@ -1,6 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../contexts/AuthContext';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../auth/firebase-config';
 
 export default function Login() {
 
@@ -10,12 +12,17 @@ export default function Login() {
     const [password, setPassword] = useState('');
     const [alertClass, setAlertClass] = useState('alert alert-danger d-none')
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (email && password) {
-            handleLogin(email, password)
-        } else {
-            setAlertClass('alert alert-danger')
+
+        try {
+
+            let user = await signInWithEmailAndPassword(auth, email, password); // giriş yapılan yer; ancak displayname null olduğu için bunu navbar'da görmek için yeni bir şey yazacağım
+            // console.log(user); 
+            navigate('/')
+
+        } catch (err) {
+
         }
     }
     return (

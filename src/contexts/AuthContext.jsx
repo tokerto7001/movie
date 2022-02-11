@@ -1,9 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { onAuthStateChanged } from 'firebase/auth';  // diyor ki sen nereye gidersen git ben halihazırda giriş yapmış olan kullanıcıyı bulacağım diyor
+import { auth } from '../auth/firebase-config'
 
 const AuthContext = React.createContext();
 
 export const AuthContextProvider = (props) => {
+
+    const [currentUser, setCurrentUser] = useState()
+    useEffect(() => {  // context yapısı her zaman çalışmaya devam edeceğinden dolayı hep başlangıçta bu çalışacak
+        onAuthStateChanged(auth, (currentUser) => { // callback yazdım
+            setCurrentUser(currentUser);
+        })
+    }, [])
+
     const navigate = useNavigate()
     const [credentials, setCredentials] = useState({
         firstName: '',
@@ -51,7 +61,8 @@ export const AuthContextProvider = (props) => {
             handleLogin: handleLogin,
             login: login,
             handleLogOut: handleLogOut,
-            alertMessage: alertMessage
+            alertMessage: alertMessage,
+            currentUser: currentUser
         }}>
             {props.children}
         </AuthContext.Provider >

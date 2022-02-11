@@ -1,23 +1,37 @@
 import React, { useContext, useState } from 'react';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { auth } from '../auth/firebase-config'
+import { useNavigate } from 'react-router-dom';
+
 import AuthContext from '../contexts/AuthContext';
 
 export default function Register() {
-    const { handleCredentials } = useContext(AuthContext);
-
+    // const { handleCredentials } = useContext(AuthContext);
+    const nav = useNavigate();
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [alertClass, setAlertClass] = useState('alert alert-success d-none')
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        handleCredentials(firstName, lastName, email, password)
-        setAlertClass('alert alert-success')
-        setFirstName('')
-        setLastName('')
-        setEmail('')
-        setPassword('')
+        const displayName = firstName + ' ' + lastName
+        try {
+            let user = await createUserWithEmailAndPassword(auth, email, password) // burada user oluşturuyorum, 3 parametre alıyor
+            // console.log(user);  // ilk başta bunu yazdır da görelim user credentials'ı daha sonra firebase e git göster user ı!!! Ama user'ın display name'i null geliyor dikkat!
+            await updateProfile(auth.currentUser, { displayName: displayName }) // login sayfasından sonra böyle olacak!!! ilk parametre değiştirmek istediğim user, ikincisi ise değiştirmek istediğim
+            console.log(auth.currentUser); // yeni üyelik açayım orada göstereyim
+            nav('/'); //bunu girdikten sonra ana sayfaya at!!!
+        } catch (err) {
+            console.log(err);
+        }
+        // handleCredentials(firstName, lastName, email, password)
+        // setAlertClass('alert alert-success')
+        // setFirstName('')
+        // setLastName('')
+        // setEmail('')
+        // setPassword('')
     }
 
     return (
