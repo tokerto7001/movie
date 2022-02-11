@@ -4,9 +4,9 @@ import Loading from "../components/Loading";
 import MovieCard from "../components/MovieCard";
 import NotFound from "../components/NotFound";
 
-const UNFILTERED = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}`
+const UNFILTERED = `https://api.themoviedb.org/3/discover/movie?api_key=d6278b3dc3e6f8f8376a89851c3f8c8f`
 
-const FILTERED = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&query=`
+const FILTERED = `https://api.themoviedb.org/3/search/movie?api_key=d6278b3dc3e6f8f8376a89851c3f8c8f&query=`
 
 export default function Main() {
 
